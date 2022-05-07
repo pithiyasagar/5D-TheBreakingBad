@@ -22,7 +22,7 @@ function styleTitle(props) {
   const style = StyleSheet.create({
     default: {
       fontSize: 18,
-      fontFamily: 'Epilogue-Bold',
+      fontFamily: 'Roboto-Bold',
       letterSpacing: -0.4,
       color: props.textColor != undefined ? props.textColor : MyColors.whiteColor,
     },

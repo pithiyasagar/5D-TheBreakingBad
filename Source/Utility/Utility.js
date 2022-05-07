@@ -1,6 +1,6 @@
 
 import { Alert, Dimensions } from "react-native";
-// import moment from "moment"; // for date format
+import moment from "moment"; // for date format
 import Toast from 'react-native-simple-toast';
 
 const APP_NAME = "TheBreakingBad"
@@ -98,10 +98,10 @@ export const getHexStringFromTimestamp = () => {
   return hexString;
 };
 
-// export const formatDate = (date, format) => {
-//   console.log("format - ", format);
-//   return moment(date).format(format);
-// };
+export const formatDate = (date, format) => {
+  console.log("format - ", format);
+  return moment(date).format(format);
+};
 
 export const isiPhoneX = () => {
   const height = Dimensions.get('window').height

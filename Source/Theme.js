@@ -1,7 +1,6 @@
 const MyColors = {
 
-  blueTitle: '#007AFF',
-  themeColor: '#0073F7',
+  themeColor: '#009E0F',
   whiteColor: "#FFFFFF",
   greyTitleColor: "#999999",
   buttonOverBlueBackground: "#0063D5",
@@ -17,12 +16,13 @@ const MyColors = {
   orangeText: "#FF8D00",
   borderColorForView: "#ECECEC",
 
-  pinkDark: '#FF2267',
+  pinkDark: '#CA184E',
   greenDark: '#009E0F',
   vwBorder: "#C3D3D4",
   sweetGreenColor: "#9AE29D",
 
   redColor: '#FF0000',
+
 };
 
 export { MyColors };

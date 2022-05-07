@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, StyleSheet, Image, Text} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 
-// import global_images from '@assets/images';
 import strings from '../Localization/strings';
+import { MyColors } from '../Theme';
 import CustomButton from './CustomButton';
 
 export default class NoInternetFound extends React.Component {
@@ -11,12 +11,11 @@ export default class NoInternetFound extends React.Component {
   }
 
   render() {
-    var {textColor = '#324755'} = this.props;
+    var {textColor = MyColors.greenDark} = this.props;
 
     return (
       <View style={{flex: 1, margin: 20}}>
         <View style={Styles.vwMainContainer}>
-          {/* <Image source={global_images.no_internet} /> */}
           <Text
             style={{
               marginTop: 20,

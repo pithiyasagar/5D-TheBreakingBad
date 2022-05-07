@@ -13,6 +13,7 @@ import { MyColors } from './Source/Theme'
 
 import HomeScreen from "./Source/Screens/HomeScreen";
 import DetailScreen from "./Source/Screens/DetailScreen";
+import FavoriteScreen from "./Source/Screens/FavoriteScreen";
 
 
 const StackMain = createStackNavigator()
@@ -48,6 +49,10 @@ class MainApp extends React.Component {
           <StackMain.Screen
             name='DetailScreen'
             component={DetailScreen}
+          />
+          <StackMain.Screen
+            name='FavoriteScreen'
+            component={FavoriteScreen}
           />
       </StackMain.Navigator>
     )
