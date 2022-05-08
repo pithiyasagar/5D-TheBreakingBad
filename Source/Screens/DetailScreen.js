@@ -50,13 +50,13 @@ export default class DetailScreen extends React.Component {
         <ScrollView>
           <View style={{ alignItems: 'flex-start' }} >
             <ImageBackground style={{ height: 370, width: '100%', alignItems :'center' }}
-              source={{uri: detailObj.img}}>
+              source={{uri: detailObj?.img}}>
               <LinearGradient colors={['#FFFFFF00', 'black']}
                 style={{ height: '100%', width: '100%', alignItems :'center' }}>
-                <FastImage style={Styles.centerImage} source={{uri: detailObj.img}} />
-                <Text style={Styles.nameText}>{detailObj.name}</Text>
-                <Text style={Styles.nicknameText}>{detailObj.nickname}</Text>
-                <Text style={Styles.statusText}>{detailObj.status}</Text>
+                <FastImage style={Styles.centerImage} source={{uri: detailObj?.img}} />
+                <Text style={Styles.nameText}>{detailObj?.name}</Text>
+                <Text style={Styles.nicknameText}>{detailObj?.nickname}</Text>
+                <Text style={Styles.statusText}>{detailObj?.status}</Text>
               </LinearGradient>
             </ImageBackground>
             <View style={{ flexDirection: 'row', marginHorizontal: 20, alignItems : 'center' }}>
@@ -66,7 +66,7 @@ export default class DetailScreen extends React.Component {
               </View>
               {isEmpty(detailObj.birthday) || detailObj.birthday == 'Unknown' ? null :
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                  <Text style={Styles.dobText}>{moment(detailObj.birthday, 'MM-DD-YYYY').format('DD-MMM-YYYY')}</Text>
+                  <Text style={Styles.dobText}>{moment(detailObj?.birthday, 'MM-DD-YYYY').format('DD-MMM-YYYY')}</Text>
                   <Icon name="gift" size={20} color="#FFF" style={{ marginStart: 10 }} />
                 </View>
               }
@@ -74,7 +74,7 @@ export default class DetailScreen extends React.Component {
             <Text style={[Styles.potrayedText, { marginTop: 30, marginHorizontal: 20 }]}>{strings.occupation}</Text>
             <FlatList
               style={{ marginTop: 5 }}
-              data={detailObj.occupation}
+              data={detailObj?.occupation}
               renderItem={this.renderOccupationItem}
               showsVerticalScrollIndicator={false}
 
@@ -84,7 +84,7 @@ export default class DetailScreen extends React.Component {
             <FlatList
               horizontal
               style={{ marginTop: 15, marginHorizontal: 15 }}
-              data={detailObj.appearance}
+              data={detailObj?.appearance}
               renderItem={this.renderAppearedItem}
               showsHorizontalScrollIndicator={false}
 
@@ -168,10 +168,10 @@ export default class DetailScreen extends React.Component {
           margin: 10,
           marginBottom: 20,
         }}>
-        <FastImage style={Styles.itemImage} source={{uri: item.img}} />
+        <FastImage style={Styles.itemImage} source={{uri: item?.img}} />
         <View>
-          <Text numberOfLines={1} style={Styles.itemText}>{item.name}</Text>
-          <Text numberOfLines={1} style={Styles.itemSubText}>{item.nickname}</Text>
+          <Text numberOfLines={1} style={Styles.itemText}>{item?.name}</Text>
+          <Text numberOfLines={1} style={Styles.itemSubText}>{item?.nickname}</Text>
         </View>
       </View>
       )

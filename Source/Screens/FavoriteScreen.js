@@ -101,15 +101,15 @@ export default class FavoriteScreen extends React.Component {
           margin: 10,
           marginBottom: 20,
         }}>
-        <FastImage style={Styles.itemImage} source={{uri: item.img}} />
+        <FastImage style={Styles.itemImage} source={{uri: item?.img}} />
         <View style={{}}>
           <View style={{ marginTop: 5, flexDirection: 'row' }}>
-            <Text numberOfLines={1} style={Styles.itemText}>{item.name}</Text>
+            <Text numberOfLines={1} style={Styles.itemText}>{item?.name}</Text>
             <TouchableOpacity onPress={() => { this.onFavoriteItem(item, index) }}>
-              <Icon name={item.isFavorite ? 'heart' : 'heart-o'} size={25} color='green' />
+              <Icon name={item?.isFavorite ? 'heart' : 'heart-o'} size={25} color='green' />
             </TouchableOpacity>
           </View>
-          <Text numberOfLines={1} style={Styles.itemSubText}>{item.nickname}</Text>
+          <Text numberOfLines={1} style={Styles.itemSubText}>{item?.nickname}</Text>
         </View>
       </TouchableOpacity>
     );
