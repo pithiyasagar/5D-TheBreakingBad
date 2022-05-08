@@ -45,6 +45,14 @@ export default class FavoriteScreen extends React.Component {
     if (this.props.route.params != null && this.props.route.params != undefined) {
       this.setState({ list: this.props.route.params.favoriteList })
     }
+  
+    this.refreshFavorite = DeviceEventEmitter.addListener('refreshFavorite', item => {
+      this.setState({})
+    })
+  }
+
+  componentWillUnmount() {
+    this.refreshFavorite.remove()
   }
 
   renderHeaderRight = () => {
@@ -96,12 +104,12 @@ export default class FavoriteScreen extends React.Component {
         <FastImage style={Styles.itemImage} source={{uri: item.img}} />
         <View style={{}}>
           <View style={{ marginTop: 5, flexDirection: 'row' }}>
-            <Text style={Styles.itemText}>{item.name}</Text>
+            <Text numberOfLines={1} style={Styles.itemText}>{item.name}</Text>
             <TouchableOpacity onPress={() => { this.onFavoriteItem(item, index) }}>
               <Icon name={item.isFavorite ? 'heart' : 'heart-o'} size={25} color='green' />
             </TouchableOpacity>
           </View>
-          <Text style={Styles.itemSubText}>{item.nickname}</Text>
+          <Text numberOfLines={1} style={Styles.itemSubText}>{item.nickname}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -119,9 +127,7 @@ export default class FavoriteScreen extends React.Component {
       isFavorite = true
     }
     item.isFavorite = isFavorite
-    this.setState({}, () => {
-      DeviceEventEmitter.emit('refreshFavorite', item)
-    })
+    DeviceEventEmitter.emit('refreshFavorite', item)
   }
 
 }

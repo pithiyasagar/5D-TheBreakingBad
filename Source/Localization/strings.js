@@ -22,6 +22,8 @@ let strings = new LocalizedStrings({
 
     search: 'Search',
 
+    other_characters: 'Other characters',
+
 
   }
 })

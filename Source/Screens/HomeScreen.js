@@ -22,7 +22,7 @@ import {showMessageAlert, isEmpty} from '../Utility/Utility';
 import {isInternetAvailable, getMethodAPI} from '../API/APIClient';
 import CustomStatusBarTheme from '../Components/CustomStatusBarTheme';
 
-const screenWidth = Dimensions.get('window').width;
+const screenWidth = Dimensions.get('window').width
 
 
 export default class HomeScreen extends React.Component {
@@ -39,6 +39,7 @@ export default class HomeScreen extends React.Component {
       keyword: '',
 
       list: [],
+      favoriteList: [],
     };
   }
 
@@ -48,7 +49,20 @@ export default class HomeScreen extends React.Component {
     this.getCharactersListAPI()
   
     this.refreshFavorite = DeviceEventEmitter.addListener('refreshFavorite', item => {
-      this.setState({})
+      // this.setState({})
+
+      // var index = this.state.list.indexOf(item)
+      // this.onFavoriteItem(item, index)
+
+      var favoriteList = this.state.favoriteList
+
+      if (item.isFavorite == undefined || item.isFavorite == null || !item.isFavorite) {
+        favoriteList.push(item)
+      } else {
+        favoriteList = favoriteList.filter(subItem => subItem.char_id !== item.char_id)
+      }
+
+      this.setState({ favoriteList })
     })
   }
 
@@ -60,6 +74,9 @@ export default class HomeScreen extends React.Component {
     this.state.isShowSearch
       ? this.props.navigation.setOptions({
           title: '',
+          headerStyle: {
+            backgroundColor: '#242424',
+          },
           headerRight: () => (
             <Animated.View
               style={{
@@ -70,40 +87,32 @@ export default class HomeScreen extends React.Component {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <View style={{flex: 1, marginHorizontal: 10}}>
-                <TextInput
+              <TextInput
                   autoFocus={true}
                   selectionColor={'rgba(255, 255, 255, 0.5)'}
                   returnKeyType={'done'}
                   style={{
-                    backgroundColor: 'transparent',
-                    fontSize: 15,
-                    // fontFamily: 'Roboto-Regular',
-                    color: MyColors.whiteColor,
+                    flex: 1,
                     padding: 0,
+                    fontSize: 33,
+                    fontFamily: 'Roboto-Regular',
+                    color: MyColors.whiteColor,
+                    backgroundColor: 'transparent',
                   }}
                   placeholder={strings.search}
-                  placeholderTextColor={MyColors.greyText9F9F}
+                  placeholderTextColor={MyColors.whiteColor}
                   onChangeText={this.handleSearchChange}
                   value={this.state.keyword}
                   onSubmitEditing={() => {
-                    this.searchSubmit();
+                    this.searchSubmit()
                   }}
-                  underlineColorAndroid={'transparent'}
+                  numberOfLines={1}
+                  underlineColorAndroid='transparent'
                 />
-                <View
-                  style={{
-                    width: '100%',
-                    height: 1,
-                    backgroundColor: '#D3D3D3',
-                    marginTop: 2,
-                  }}
-                />
-              </View>
               <TouchableOpacity
                 hitSlop={{left: 20, right: 20, top: 20, bottom: 20}}
                 onPress={() => {
-                  this.onClickSearch();
+                  this.onClickSearch()
                 }}>
                 <Icon name="close" size={30} color="#FFF" />
               </TouchableOpacity>
@@ -226,14 +235,20 @@ export default class HomeScreen extends React.Component {
 
             if (statusCode == 200 && data != null && data != undefined) {
 
-              // var list = this.state.list
+              var newList = []
 
-              // data.map((item, mainIndex) => {
-              //   item.isFavorite = true
-              //   list.push(item)
-              // })
+              data.map((mainItem, mainIndex) => {
+                  var isFavorite = false
+                  this.state.favoriteList.map((selectedItem, selectedIndex) => {
+                      if (selectedItem.char_id == mainItem.char_id) {
+                        isFavorite = true
+                      }
+                  })
+                  mainItem.isFavorite = isFavorite
+                  newList.push(mainItem)
+              })
 
-              this.setState({ list: data })
+              this.setState({ list: newList })
             } else if (data.message != undefined) {
               this.setState({ list: [] })
               showMessageAlert(data.message)
@@ -274,10 +289,11 @@ export default class HomeScreen extends React.Component {
           </View>
         ) : (
           <FlatList
-            style={{margin: 15}}
+            style={{ margin: 15 }}
             data={this.state.list}
             renderItem={this.renderItem}
             numColumns={2}
+            extraData={[this.state.list]}
             showsVerticalScrollIndicator={false}
 
             keyExtractor={item => item.char_id + ''}
@@ -303,12 +319,12 @@ export default class HomeScreen extends React.Component {
         <FastImage style={Styles.itemImage} source={{uri: item.img}} />
         <View style={{}}>
           <View style={{ marginTop: 5, flexDirection: 'row' }}>
-            <Text style={Styles.itemText}>{item.name}</Text>
+            <Text numberOfLines={1} style={Styles.itemText}>{item.name}</Text>
             <TouchableOpacity onPress={() => { this.onFavoriteItem(item, index) }}>
               <Icon name={item.isFavorite ? 'heart' : 'heart-o'} size={25} color='green' />
             </TouchableOpacity>
           </View>
-          <Text style={Styles.itemSubText}>{item.nickname}</Text>
+          <Text numberOfLines={1} style={Styles.itemSubText}>{item.nickname}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -320,13 +336,23 @@ export default class HomeScreen extends React.Component {
     })
   }
 
-  onFavoriteItem(item, index) {
+  onFavoriteItem = (item, index) => {
     var isFavorite = false
+    // var list = this.state.list
+    var favoriteList = this.state.favoriteList
+
     if (item.isFavorite == undefined || item.isFavorite == null || !item.isFavorite) {
       isFavorite = true
+      favoriteList.push(item)
+    } else {
+      favoriteList = favoriteList.filter(subItem => subItem.char_id !== item.char_id)
     }
+
     item.isFavorite = isFavorite
-    this.setState({})
+    // list[index].isFavorite = isFavorite
+    this.setState({ 
+      // list, 
+      favoriteList })
   }
   
 }

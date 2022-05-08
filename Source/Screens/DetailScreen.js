@@ -7,7 +7,8 @@ import {
   View,
   FlatList,
   ImageBackground,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  Dimensions
 } from 'react-native'
 import moment from 'moment'
 import FastImage from 'react-native-fast-image'
@@ -19,6 +20,8 @@ import strings from '../Localization/strings';
 import CustomStatusBarTheme from '../Components/CustomStatusBarTheme'
 import { ScrollView } from 'react-native-gesture-handler';
 import { isEmpty } from '../Utility/Utility'
+
+const screenWidth = Dimensions.get('window').width
 
 
 export default class DetailScreen extends React.Component {
@@ -87,6 +90,19 @@ export default class DetailScreen extends React.Component {
 
               keyExtractor={item => item + ''}
             />
+
+            <Text style={Styles.otherText}>{strings.other_characters}</Text>
+
+            <FlatList
+              horizontal
+              style={{ margin: 15 }}
+              data={[this.state.detailObj]}
+              renderItem={this.renderItem}
+              showsHorizontalScrollIndicator={false}
+
+              keyExtractor={item => item.char_id + ''}
+            />
+
           </View>
         </ScrollView>
 
@@ -141,6 +157,25 @@ export default class DetailScreen extends React.Component {
       <Text style={Styles.appearedText}>{strings.formatString(strings.season_var, item)}</Text>
     )
   }
+
+  renderItem = ({item, index}) => {
+    var itemWidth = screenWidth / 2 - 30;
+
+    return (
+      <View
+        style={{
+          width: itemWidth,
+          margin: 10,
+          marginBottom: 20,
+        }}>
+        <FastImage style={Styles.itemImage} source={{uri: item.img}} />
+        <View>
+          <Text numberOfLines={1} style={Styles.itemText}>{item.name}</Text>
+          <Text numberOfLines={1} style={Styles.itemSubText}>{item.nickname}</Text>
+        </View>
+      </View>
+      )
+    }
 
 }
 
@@ -207,5 +242,34 @@ const Styles = StyleSheet.create({
     fontFamily: 'Roboto-Regular',
   },
 
+  otherText: {
+    fontSize: 23,
+    marginTop: 60,
+    marginHorizontal: 20,
+    color: MyColors.whiteColor,
+    fontFamily: 'Roboto-Bold',
+  },
+
+  itemImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 10,
+    backgroundColor: MyColors.greyTitleColor,
+  },
+  itemText: {
+    flex: 1,
+    fontSize: 16,
+    marginTop: 5,
+    paddingHorizontal: 5,
+    color: MyColors.whiteColor,
+    fontFamily: 'Roboto-Bold',
+  },
+  itemSubText: {
+    fontSize: 14,
+    marginTop: 5,
+    paddingHorizontal: 5,
+    color: MyColors.whiteColor,
+    fontFamily: 'Roboto-Regular',
+  },
 
 });
