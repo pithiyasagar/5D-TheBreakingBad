@@ -220,7 +220,7 @@ export default class HomeScreen extends React.Component {
     isInternetAvailable().then(response => {
       if (response.isConnected) {
         const apifetcherObj = getMethodAPI(
-          '/api/characters?name=' + this.state.keyword,
+          'products' + this.state.keyword,
           null,
           null,
         );
@@ -231,13 +231,13 @@ export default class HomeScreen extends React.Component {
           .then(res => {
             let statusCode = res[0];
             let data = res[1];
-            console.log('Response >>>\n', data);
+            console.log('Response >>>\n', data?.products);
 
-            if (statusCode == 200 && data != null && data != undefined) {
+            if (statusCode == 200 && data?.products != null && data?.products != undefined) {
 
               var newList = []
 
-              data.map((mainItem, mainIndex) => {
+              data?.products?.map((mainItem, mainIndex) => {
                   var isFavorite = false
                   this.state.favoriteList.map((selectedItem, selectedIndex) => {
                       if (selectedItem.char_id == mainItem.char_id) {
@@ -316,15 +316,15 @@ export default class HomeScreen extends React.Component {
           margin: 10,
           marginBottom: 20,
         }}>
-        <FastImage style={Styles.itemImage} source={{uri: item?.img}} />
+        <FastImage style={Styles.itemImage} source={{uri: item?.thumbnail}} />
         <View style={{}}>
           <View style={{ marginTop: 5, flexDirection: 'row' }}>
-            <Text numberOfLines={1} style={Styles.itemText}>{item?.name}</Text>
+            <Text numberOfLines={1} style={Styles.itemText}>{item?.title}</Text>
             <TouchableOpacity onPress={() => { this.onFavoriteItem(item, index) }}>
               <Icon name={item?.isFavorite ? 'heart' : 'heart-o'} size={25} color='green' />
             </TouchableOpacity>
           </View>
-          <Text numberOfLines={1} style={Styles.itemSubText}>{item?.nickname}</Text>
+          <Text numberOfLines={1} style={Styles.itemSubText}>{item?.description}</Text>
         </View>
       </TouchableOpacity>
     );

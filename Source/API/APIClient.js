@@ -3,7 +3,8 @@ import NetInfo from "@react-native-community/netinfo"
 // import DeviceInfo from 'react-native-device-info'
 
 // Live
-export const BASE_URL = 'https://www.breakingbadapi.com'
+// export const BASE_URL = 'https://www.breakingbadapi.com'
+export const BASE_URL = 'https://dummyjson.com/'
 
 export const APIConstants = {
   AuthenticationType: {

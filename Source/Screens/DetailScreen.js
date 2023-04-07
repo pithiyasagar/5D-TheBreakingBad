@@ -50,12 +50,12 @@ export default class DetailScreen extends React.Component {
         <ScrollView>
           <View style={{ alignItems: 'flex-start' }} >
             <ImageBackground style={{ height: 370, width: '100%', alignItems :'center' }}
-              source={{uri: detailObj?.img}}>
+              source={{uri: detailObj?.thumbnail}}>
               <LinearGradient colors={['#FFFFFF00', 'black']}
                 style={{ height: '100%', width: '100%', alignItems :'center' }}>
-                <FastImage style={Styles.centerImage} source={{uri: detailObj?.img}} />
-                <Text style={Styles.nameText}>{detailObj?.name}</Text>
-                <Text style={Styles.nicknameText}>{detailObj?.nickname}</Text>
+                <FastImage style={Styles.centerImage} source={{uri: detailObj?.thumbnail}} />
+                <Text style={Styles.nameText}>{detailObj?.title}</Text>
+                <Text style={Styles.nicknameText}>{detailObj?.description}</Text>
                 <Text style={Styles.statusText}>{detailObj?.status}</Text>
               </LinearGradient>
             </ImageBackground>
@@ -168,10 +168,10 @@ export default class DetailScreen extends React.Component {
           margin: 10,
           marginBottom: 20,
         }}>
-        <FastImage style={Styles.itemImage} source={{uri: item?.img}} />
+        <FastImage style={Styles.itemImage} source={{uri: item?.thumbnail}} />
         <View>
-          <Text numberOfLines={1} style={Styles.itemText}>{item?.name}</Text>
-          <Text numberOfLines={1} style={Styles.itemSubText}>{item?.nickname}</Text>
+          <Text numberOfLines={1} style={Styles.itemText}>{item?.title}</Text>
+          <Text numberOfLines={1} style={Styles.itemSubText}>{item?.description}</Text>
         </View>
       </View>
       )
