@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   SafeAreaView,
   FlatList,
@@ -12,24 +12,26 @@ import {
 import FastImage from 'react-native-fast-image'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-import {MyColors} from '../Theme';
+import { MyColors } from '../Theme';
 import strings from '../Localization/strings';
 import CustomStatusBarTheme from '../Components/CustomStatusBarTheme';
+import { printOnConsole } from '../Utility/Utility';
 
 const screenWidth = Dimensions.get('window').width;
 
 
-export default class FavoriteScreen extends React.Component {
+interface Props {
+  navigation: any;
+  route: any;
+}
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      list: [],
-    };
-  }
 
-  componentDidMount() {
-    this.props.navigation.setOptions({
+const FavoriteScreen: React.FC<Props> = ({ navigation, route }) => {
+
+  const [list, setList] = useState([])
+
+  useEffect(() => {
+    navigation.setOptions({
       title: strings.favourites,
       headerTintColor: MyColors.greenDark,
       headerStyle: {
@@ -39,73 +41,74 @@ export default class FavoriteScreen extends React.Component {
         fontFamily: 'Roboto-Bold'
       },
       headerLeft: null,
-      headerRight: this.renderHeaderRight,
+      headerRight: renderHeaderRight,
     })
+    
+    printOnConsole('route-------------'+ JSON.stringify(route))
 
-    if (this.props.route.params != null && this.props.route.params != undefined) {
-      this.setState({ list: this.props.route.params.favoriteList })
+    if (route.params != null && route.params != undefined) {
+      setList(route.params.favoriteList)
     }
-  
-    this.refreshFavorite = DeviceEventEmitter.addListener('refreshFavorite', item => {
-      this.setState({})
+
+    const refreshFavorite = DeviceEventEmitter.addListener('refreshFavorite', item => {
+      setList([])
     })
-  }
 
-  componentWillUnmount() {
-    this.refreshFavorite.remove()
-  }
+    return (() => {
+      refreshFavorite.remove()
+    })
 
-  renderHeaderRight = () => {
+  }, [])
+
+  function renderHeaderRight() {
     return (
-      <TouchableOpacity style={{padding: 10}}
-        onPress={() => { this.props.navigation.goBack() }}>
+      <TouchableOpacity style={{ padding: 10 }}
+        onPress={() => { navigation.goBack() }}>
         <Icon name="close" size={30} color="#FFF" />
       </TouchableOpacity>
     );
   }
 
-  render() {
-    return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: MyColors.blackColor }}>
-        <CustomStatusBarTheme />
-        {this.state.list == undefined || this.state.list.length == 0 ? (
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={Styles.noRecordText}>{strings.no_record_found}</Text>
-          </View>
-        ) : (
-          <FlatList
-            style={{margin: 15}}
-            data={this.state.list}
-            renderItem={this.renderItem}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: MyColors.blackColor }}>
+      <CustomStatusBarTheme />
+      {list == undefined || list.length == 0 ? (
+        <View
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={Styles.noRecordText}>{strings.no_record_found}</Text>
+        </View>
+      ) : (
+        <FlatList
+          style={{ margin: 15 }}
+          data={list}
+          renderItem={renderItem}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
 
-            keyExtractor={item => item.char_id + ''}
-          />
-        )}
-      </SafeAreaView>
-    );
-  }
+          keyExtractor={item => item.id + ''}
+        />
+      )}
+    </SafeAreaView>
+  );
 
-  renderItem = ({item, index}) => {
+  function renderItem({ item, index }) {
     var itemWidth = screenWidth / 2 - 30;
 
     return (
       <TouchableOpacity
         onPress={() => {
-          this.itemClick(item);
+          itemClick(item);
         }}
         style={{
           width: itemWidth,
           margin: 10,
           marginBottom: 20,
         }}>
-        <FastImage style={Styles.itemImage} source={{uri: item?.thumbnail}} />
+        <FastImage style={Styles.itemImage} source={{ uri: item?.thumbnail }} />
         <View style={{}}>
           <View style={{ marginTop: 5, flexDirection: 'row' }}>
             <Text numberOfLines={1} style={Styles.itemText}>{item?.title}</Text>
-            <TouchableOpacity onPress={() => { this.onFavoriteItem(item, index) }}>
+            <TouchableOpacity onPress={() => { onFavoriteItem(item, index) }}>
               <Icon name={item?.isFavorite ? 'heart' : 'heart-o'} size={25} color='green' />
             </TouchableOpacity>
           </View>
@@ -115,13 +118,13 @@ export default class FavoriteScreen extends React.Component {
     );
   };
 
-  itemClick(item) {
-    this.props.navigation.navigate('DetailScreen', {
+  function itemClick(item) {
+    navigation.navigate('DetailScreen', {
       detailObj: item,
     })
   }
 
-  onFavoriteItem(item, index) {
+  function onFavoriteItem(item, index) {
     var isFavorite = false
     if (item.isFavorite == undefined || item.isFavorite == null || !item.isFavorite) {
       isFavorite = true
@@ -131,6 +134,8 @@ export default class FavoriteScreen extends React.Component {
   }
 
 }
+
+export default FavoriteScreen
 
 const Styles = StyleSheet.create({
   itemImage: {

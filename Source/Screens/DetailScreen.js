@@ -100,7 +100,7 @@ export default class DetailScreen extends React.Component {
               renderItem={this.renderItem}
               showsHorizontalScrollIndicator={false}
 
-              keyExtractor={item => item.char_id + ''}
+              keyExtractor={item => item.id + ''}
             />
 
           </View>
@@ -116,7 +116,7 @@ export default class DetailScreen extends React.Component {
   renderBack = () => {
     return (
       <TouchableOpacity
-        style={{ position: 'absolute' }}
+        style={{ position: 'absolute', marginTop: 40 }}
         onPress={() => { this.props.navigation.goBack() }}>
         <Icon name="arrow-left" size={30} color="#FFF" style={{ padding: 10 }} />
       </TouchableOpacity>
@@ -126,7 +126,7 @@ export default class DetailScreen extends React.Component {
   renderHeart = () => {
     return (
       <TouchableOpacity
-        style={{ right: 0, position: 'absolute' }}
+        style={{ right: 0, position: 'absolute', marginTop: 40 }}
         onPress={() => { this.onFavorite()  }}>
         <Icon name={this.state.detailObj.isFavorite ? 'heart' : 'heart-o'} 
         size={25} color='green' style={{ padding: 10 }} />
@@ -199,7 +199,8 @@ const Styles = StyleSheet.create({
     marginTop: 5,
     textAlign: 'center',
     color: MyColors.whiteColor,
-    fontFamily: 'Roboto-Medium',
+    fontFamily: 'Roboto-Regular',
+    fontWeight: '600'
   },
   statusText: {
     fontSize: 14,
@@ -214,7 +215,8 @@ const Styles = StyleSheet.create({
     marginTop: 5,
     textAlign: 'center',
     color: MyColors.greenDark,
-    fontFamily: 'Roboto-Medium',
+    fontFamily: 'Roboto-Regular',
+    fontWeight: '600'
   },
 
   occupationText: {

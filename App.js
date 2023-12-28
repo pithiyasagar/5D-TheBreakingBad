@@ -1,13 +1,18 @@
 import React from 'react';
-import MainApp from "./MainApp"
+import { Provider } from 'react-redux';
 
-if(__DEV__) {
+import MainApp from "./MainApp"
+import { store } from './Source/redux/store';
+
+if (__DEV__) {
   import('./ReactotronConfig').then(() => console.log('Reactotron Configured'))
 }
 
 const App = () => {
   return (
-    <MainApp/>
+    <Provider store={store} >
+      <MainApp />
+    </Provider>
   );
 };
 
